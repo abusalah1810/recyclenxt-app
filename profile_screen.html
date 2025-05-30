@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RecycleNXT - User Profile & Impact Tracker</title>
+    <style>
+        :root {
+            --primary-green: #4CAF50;
+            --secondary-green: #8BC34A;
+            --accent-blue: #03A9F4;
+            --background-white: #FAFAFA;
+            --light-gray: #F0F0F0;
+            --medium-gray: #9E9E9E;
+            --dark-gray: #424242;
+        }
+        
+        body {
+            font-family: 'Nunito', 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-white);
+            color: var(--dark-gray);
+        }
+        
+        .mobile-container {
+            max-width: 375px;
+            height: 812px;
+            margin: 20px auto;
+            border: 10px solid #222;
+            border-radius: 36px;
+            overflow: hidden;
+            position: relative;
+            background-color: var(--background-white);
+        }
+        
+        .status-bar {
+            height: 44px;
+            background-color: var(--background-white);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .header {
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .page-title {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        .settings-icon {
+            position: absolute;
+            right: 16px;
+            font-size: 20px;
+        }
+        
+        .content {
+            padding: 16px;
+            padding-bottom: 80px;
+            overflow-y: auto;
+            height: calc(100% - 120px);
+        }
+        
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            background-color: var(--light-gray);
+            border-radius: 50%;
+            margin-right: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 32px;
+        }
+        
+        .profile-info {
+            flex: 1;
+        }
+        
+        .profile-name {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        
+        .profile-email {
+            font-size: 14px;
+            color: var(--medium-gray);
+            margin-bottom: 8px;
+        }
+        
+        .edit-profile {
+            font-size: 14px;
+            color: var(--primary-green);
+        }
+        
+        .stats-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+        
+        .stat-card {
+            flex: 1;
+            background-color: white;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            margin-right: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-card:last-child {
+            margin-right: 0;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 4px;
+            color: var(--primary-green);
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: var(--medium-gray);
+        }
+        
+        .impact-tracker {
+            background-color: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+        
+        .impact-visual {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            margin-bottom: 16px;
+        }
+        
+        .impact-icon {
+            font-size: 48px;
+            margin-bottom: 8px;
+        }
+        
+        .impact-metric {
+            text-align: center;
+        }
+        
+        .impact-value {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        
+        .impact-description {
+            font-size: 14px;
+            color: var(--medium-gray);
+        }
+        
+        .impact-message {
+            background-color: rgba(76, 175, 80, 0.1);
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 14px;
+            text-align: center;
+            color: var(--primary-green);
+        }
+        
+        .history-section {
+            margin-bottom: 24px;
+        }
+        
+        .tab-container {
+            display: flex;
+            margin-bottom: 16px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            font-weight: bold;
+            color: var(--medium-gray);
+            cursor: pointer;
+        }
+        
+        .tab.active {
+            color: var(--primary-green);
+            border-bottom: 2px solid var(--primary-green);
+        }
+        
+        .history-list {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .history-item {
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .history-item:last-child {
+            border-bottom: none;
+        }
+        
+        .history-details {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .history-title {
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        
+        .history-date {
+            font-size: 12px;
+            color: var(--medium-gray);
+        }
+        
+        .history-status {
+            font-size: 14px;
+            color: var(--primary-green);
+        }
+        
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 60px;
+            background-color: white;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 12px;
+        }
+        
+        .nav-icon {
+            width: 24px;
+            height: 24px;
+            background-color: var(--medium-gray);
+            border-radius: 50%;
+            margin-bottom: 4px;
+        }
+        
+        .nav-item.active .nav-icon {
+            background-color: var(--primary-green);
+        }
+        
+        .nav-item.active {
+            color: var(--primary-green);
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-container">
+        <div class="status-bar">
+            <span>9:41</span>
+            <span>📶 📊 🔋</span>
+        </div>
+        
+        <div class="header">
+            <div class="page-title">Profile</div>
+            <div class="settings-icon">⚙️</div>
+        </div>
+        
+        <div class="content">
+            <div class="profile-header">
+                <div class="profile-avatar">👤</div>
+                <div class="profile-info">
+                    <div class="profile-name">Rahul Sharma</div>
+                    <div class="profile-email">rahul.s@example.com</div>
+                    <div class="edit-profile">Edit Profile</div>
+                </div>
+            </div>
+            
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-value">215</div>
+                    <div class="stat-label">Tokens Earned</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">70</div>
+                    <div class="stat-label">Bottles Donated</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">Products Bought</div>
+                </div>
+            </div>
+            
+            <div class="impact-tracker">
+                <div class="section-title">Your Impact</div>
+                <div class="impact-visual">
+                    <div class="impact-metric">
+                        <div class="impact-icon">🎒</div>
+                        <div class="impact-value">2</div>
+                        <div class="impact-description">Backpacks Made</div>
+                    </div>
+                    <div class="impact-metric">
+                        <div class="impact-icon">🌱</div>
+                        <div class="impact-value">70</div>
+                        <div class="impact-description">Bottles Recycled</div>
+                    </div>
+                </div>
+                <div class="impact-message">
+                    Your donations helped make 2 backpacks and saved 3.5 kg of plastic from landfills!
+                </div>
+            </div>
+            
+            <div class="history-section">
+                <div class="tab-container">
+                    <div class="tab active">Donation History</div>
+                    <div class="tab">Past Orders</div>
+                </div>
+                
+                <div class="history-list">
+                    <div class="history-item">
+                        <div class="history-details">
+                            <div class="history-title">20 Plastic Bottles</div>
+                            <div class="history-date">Today, 2:30 PM</div>
+                        </div>
+                        <div class="history-status">Pickup Scheduled</div>
+                    </div>
+                    
+                    <div class="history-item">
+                        <div class="history-details">
+                            <div class="history-title">30 Glass Bottles</div>
+                            <div class="history-date">May 20, 2025</div>
+                        </div>
+                        <div class="history-status">Completed</div>
+                    </div>
+                    
+                    <div class="history-item">
+                        <div class="history-details">
+                            <div class="history-title">20 Plastic Bottles</div>
+                            <div class="history-date">May 10, 2025</div>
+                        </div>
+                        <div class="history-status">Completed</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bottom-nav">
+            <div class="nav-item">
+                <div class="nav-icon"></div>
+                <div>Home</div>
+            </div>
+            <div class="nav-item">
+                <div class="nav-icon"></div>
+                <div>Donate</div>
+            </div>
+            <div class="nav-item">
+                <div class="nav-icon"></div>
+                <div>Wallet</div>
+            </div>
+            <div class="nav-item active">
+                <div class="nav-icon"></div>
+                <div>Profile</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

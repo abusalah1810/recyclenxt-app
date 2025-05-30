@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RecycleNXT - TerraTokens Wallet</title>
+    <style>
+        :root {
+            --primary-green: #4CAF50;
+            --secondary-green: #8BC34A;
+            --accent-blue: #03A9F4;
+            --background-white: #FAFAFA;
+            --light-gray: #F0F0F0;
+            --medium-gray: #9E9E9E;
+            --dark-gray: #424242;
+        }
+        
+        body {
+            font-family: 'Nunito', 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-white);
+            color: var(--dark-gray);
+        }
+        
+        .mobile-container {
+            max-width: 375px;
+            height: 812px;
+            margin: 20px auto;
+            border: 10px solid #222;
+            border-radius: 36px;
+            overflow: hidden;
+            position: relative;
+            background-color: var(--background-white);
+        }
+        
+        .status-bar {
+            height: 44px;
+            background-color: var(--background-white);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .header {
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .page-title {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        .content {
+            padding: 16px;
+        }
+        
+        .wallet-card {
+            background-color: var(--primary-green);
+            border-radius: 16px;
+            padding: 24px;
+            color: white;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+        }
+        
+        .wallet-label {
+            font-size: 16px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .info-icon {
+            margin-left: 8px;
+            width: 16px;
+            height: 16px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        
+        .token-balance {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+        
+        .token-value {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .use-tokens-button {
+            background-color: white;
+            color: var(--primary-green);
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 16px;
+            width: 100%;
+            cursor: pointer;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .view-all {
+            font-size: 14px;
+            color: var(--primary-green);
+            font-weight: normal;
+        }
+        
+        .transaction-list {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .transaction-item {
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .transaction-item:last-child {
+            border-bottom: none;
+        }
+        
+        .transaction-details {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .transaction-title {
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        
+        .transaction-date {
+            font-size: 12px;
+            color: var(--medium-gray);
+        }
+        
+        .transaction-amount {
+            font-weight: bold;
+            color: var(--primary-green);
+        }
+        
+        .transaction-amount.negative {
+            color: var(--dark-gray);
+        }
+        
+        .tooltip {
+            position: absolute;
+            top: 120px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            width: 80%;
+            text-align: center;
+            z-index: 100;
+            display: none;
+        }
+        
+        .tooltip.visible {
+            display: block;
+        }
+        
+        .tooltip-arrow {
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-bottom: 8px solid rgba(0, 0, 0, 0.8);
+        }
+        
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 60px;
+            background-color: white;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 12px;
+        }
+        
+        .nav-icon {
+            width: 24px;
+            height: 24px;
+            background-color: var(--medium-gray);
+            border-radius: 50%;
+            margin-bottom: 4px;
+        }
+        
+        .nav-item.active .nav-icon {
+            background-color: var(--primary-green);
+        }
+        
+        .nav-item.active {
+            color: var(--primary-green);
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-container">
+        <div class="status-bar">
+            <span>9:41</span>
+            <span>📶 📊 🔋</span>
+        </div>
+        
+        <div class="header">
+            <div class="page-title">TerraTokens Wallet</div>
+        </div>
+        
+        <div class="content">
+            <div class="wallet-card">
+                <div class="wallet-label">
+                    Your Balance <div class="info-icon">i</div>
+                </div>
+                <div class="token-balance">215</div>
+                <div class="token-value">1 token = ₹1</div>
+                <button class="use-tokens-button">Use Tokens at Checkout</button>
+            </div>
+            
+            <div class="tooltip">
+                <div class="tooltip-arrow"></div>
+                TerraTokens can be used for up to 25% discount on your purchases. 1 token = ₹1 in value.
+            </div>
+            
+            <div class="section-title">
+                <div>Recent Activity</div>
+                <div class="view-all">View All</div>
+            </div>
+            
+            <div class="transaction-list">
+                <div class="transaction-item">
+                    <div class="transaction-details">
+                        <div class="transaction-title">Donated 20 Plastic Bottles</div>
+                        <div class="transaction-date">Today, 2:30 PM</div>
+                    </div>
+                    <div class="transaction-amount">+25</div>
+                </div>
+                
+                <div class="transaction-item">
+                    <div class="transaction-details">
+                        <div class="transaction-title">Purchased Dense Backpack</div>
+                        <div class="transaction-date">Yesterday, 11:15 AM</div>
+                    </div>
+                    <div class="transaction-amount">+40</div>
+                </div>
+                
+                <div class="transaction-item">
+                    <div class="transaction-details">
+                        <div class="transaction-title">Used at Checkout</div>
+                        <div class="transaction-date">May 25, 2025</div>
+                    </div>
+                    <div class="transaction-amount negative">-50</div>
+                </div>
+                
+                <div class="transaction-item">
+                    <div class="transaction-details">
+                        <div class="transaction-title">Donated 30 Glass Bottles</div>
+                        <div class="transaction-date">May 20, 2025</div>
+                    </div>
+                    <div class="transaction-amount">+45</div>
+                </div>
+                
+                <div class="transaction-item">
+                    <div class="transaction-details">
+                        <div class="transaction-title">Purchased Tote Bag</div>
+                        <div class="transaction-date">May 18, 2025</div>
+                    </div>
+                    <div class="transaction-amount">+20</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bottom-nav">
+            <div class="nav-item">
+                <div class="nav-icon"></div>
+                <div>Home</div>
+            </div>
+            <div class="nav-item">
+                <div class="nav-icon"></div>
+                <div>Donate</div>
+            </div>
+            <div class="nav-item active">
+                <div class="nav-icon"></div>
+                <div>Wallet</div>
+            </div>
+            <div class="nav-item">
+                <div class="nav-icon"></div>
+                <div>Profile</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

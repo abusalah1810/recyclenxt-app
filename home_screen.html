@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RecycleNXT - Home Screen</title>
+    <style>
+        :root {
+            --primary-green: #4CAF50;
+            --secondary-green: #8BC34A;
+            --accent-blue: #03A9F4;
+            --background-white: #FAFAFA;
+            --light-gray: #F0F0F0;
+            --medium-gray: #9E9E9E;
+            --dark-gray: #424242;
+        }
+        
+        body {
+            font-family: 'Nunito', 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-white);
+            color: var(--dark-gray);
+        }
+        
+        .mobile-container {
+            max-width: 375px;
+            height: 812px;
+            margin: 20px auto;
+            border: 10px solid #222;
+            border-radius: 36px;
+            overflow: hidden;
+            position: relative;
+            background-color: var(--background-white);
+        }
+        
+        .status-bar {
+            height: 44px;
+            background-color: var(--background-white);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .header {
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-green);
+        }
+        
+        .profile-icon {
+            width: 32px;
+            height: 32px;
+            background-color: var(--light-gray);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .banner-container {
+            padding: 0 16px;
+        }
+        
+        .banner {
+            height: 160px;
+            background-color: var(--secondary-green);
+            border-radius: 12px;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            padding: 16px;
+        }
+        
+        .section-title {
+            padding: 16px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        .category-filters {
+            display: flex;
+            padding: 0 16px;
+            overflow-x: auto;
+            margin-bottom: 16px;
+        }
+        
+        .category {
+            padding: 8px 16px;
+            background-color: var(--light-gray);
+            border-radius: 20px;
+            margin-right: 8px;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+        
+        .category.active {
+            background-color: var(--primary-green);
+            color: white;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            padding: 0 16px;
+            margin-bottom: 80px;
+        }
+        
+        .product-card {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .product-image {
+            height: 120px;
+            background-color: var(--light-gray);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .product-details {
+            padding: 12px;
+        }
+        
+        .product-name {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        
+        .product-price {
+            font-size: 16px;
+            color: var(--primary-green);
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .product-actions {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .add-to-cart {
+            padding: 6px 12px;
+            background-color: white;
+            border: 1px solid var(--primary-green);
+            border-radius: 8px;
+            color: var(--primary-green);
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .buy-now {
+            padding: 6px 12px;
+            background-color: var(--primary-green);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 60px;
+            background-color: white;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 12px;
+        }
+        
+        .nav-icon {
+            width: 24px;
+            height: 24px;
+            background-color: var(--medium-gray);
+            border-radius: 50%;
+            margin-bottom: 4px;
+        }
+        
+        .nav-item.active .nav-icon {
+            background-color: var(--primary-green);
+        }
+        
+        .nav-item.active {
+            color: var(--primary-green);
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-container">
+        <div class="status-bar">
+            <span>9:41</span>
+            <span>📶 📊 🔋</span>
+        </div>
+        
+        <div class="header">
+            <div class="logo">RecycleNXT</div>
+            <div class="profile-icon">👤</div>
+        </div>
+        
+        <div class="banner-container">
+            <div class="banner">
+                Eco Tip: Reusing a single plastic bottle saves enough energy to power a 60W light bulb for 6 hours
+            </div>
+        </div>
+        
+        <div class="section-title">Shop Eco-Friendly</div>
+        
+        <div class="category-filters">
+            <div class="category active">All</div>
+            <div class="category">Backpacks</div>
+            <div class="category">Totes</div>
+            <div class="category">Laptop Sleeves</div>
+            <div class="category">Accessories</div>
+        </div>
+        
+        <div class="products-grid">
+            <div class="product-card">
+                <div class="product-image">Backpack Image</div>
+                <div class="product-details">
+                    <div class="product-name">Dense Backpack</div>
+                    <div class="product-price">₹1,499</div>
+                    <div class="product-actions">
+                        <div class="add-to-cart">Add to Cart</div>
+                        <div class="buy-now">Buy Now</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <div class="product-image">Tote Image</div>
+                <div class="product-details">
+                    <div class="product-name">Dense Tote Bag</div>
+                    <div class="product-price">₹899</div>
+                    <div class="product-actions">
+                        <div class="add-to-cart">Add to Cart</div>
+                        <div class="buy-now">Buy Now</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <div class="product-image">Sleeve Image</div>
+                <div class="product-details">
+                    <div class="product-name">Laptop Sleeve</div>
+                    <div class="product-price">₹1,299</div>
+                    <div class="product-actions">
+                        <div class="add-to-cart">Add to Cart</div>
+                        <div class="buy-now">Buy Now</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <div class="product-image">Pouch Image</div>
+                <div class="product-details">
+                    <div class="product-name">Accessory Pouch</div>
+                    <div class="product-price">₹499</div>
+                    <div class="product-actions">
+                        <div class="add-to-cart">Add to Cart</div>
+                        <div class="buy-now">Buy Now</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bottom-nav">
+            <div class="nav-item active">
+                <div class="nav-icon"></div>
+                <div>Home</div>
+            </div>
+            <div class="nav-item">
+                <div class="nav-icon"></div>
+                <div>Donate</div>
+            </div>
+            <div class="nav-item">
+                <div class="nav-icon"></div>
+                <div>Wallet</div>
+            </div>
+            <div class="nav-item">
+                <div class="nav-icon"></div>
+                <div>Profile</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
